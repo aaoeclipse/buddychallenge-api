@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id      Int       @id @default(autoincrement())
+  email   String    @unique
+  password String 
+  name    String? 
+  active  Boolean   @default(true)
+
+  sets    Set[]
+  workouts  Workout[]
+  active_workouts   ActiveWorkout[]
+}
+
+model Set{
+  id            Int       @id @default(autoincrement())
+  owner         User @relation(fields: [owner_id], references: [id])
+  owner_id      Int
+  name          String
+  desc          String?
+  musl_grp      String?
+
+  num_sets      Int?
+  rest_in_sec   Int?
+
+  unit_sets     UnitSet[]
+
+  image     String?
+}
+
+model UnitSet {
+  id            Int       @id @default(autoincrement())
+  set           Set @relation(fields: [set_id], references: [id])
+  set_id        Int
+
+  rep           Int?
+  weight        Float?
+
+}
+
+model Workout {
+  id                Int     @id @default(autoincrement())
+  name              String
+  owner             User @relation(fields: [owner_id], references: [id])
+  owner_id          Int
+  public            Boolean @default(false)
+
+  active_workouts   ActiveWorkout[]
+}
+
+model ActiveWorkout{
+  id            Int     @id @default(autoincrement())
+  date_created  DateTime  @default(now())
+  
+  owner         User @relation(fields: [owner_id], references: [id])
+  owner_id      Int
+
+  workout       Workout @relation(fields: [workout_id], references: [id])
+  workout_id    Int
+  
+  data          Json?
+}
