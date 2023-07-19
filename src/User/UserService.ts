@@ -1,6 +1,6 @@
-import { CreateUser, SecureUser, User } from '../../routes/user/types'
-import usersData from '../../data/user/user.json'
-import { prisma } from '../../db/db'
+import { CreateUser, SecureUser, User } from './UserModel'
+import usersData from '../data/user/user.json'
+import { prisma } from '../db/db'
 import * as bcrypt from 'bcrypt'
 
 const users: User[] = usersData as User[]

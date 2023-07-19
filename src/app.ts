@@ -1,6 +1,6 @@
 import express from 'express'
-import userRoutes from './routes/user/user'
-import setRouter from './routes/set/setRoutes'
+import userRoutes from './User/UserRoute'
+import setRouter from './Set/SetRoutes'
 
 const app = express()
 app.use(express.json())

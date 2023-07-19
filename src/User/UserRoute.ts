@@ -1,6 +1,6 @@
 import express from 'express'
-import { CreateUser } from './types'
-import * as service from '../../services/user/userService'
+import { CreateUser } from './UserModel'
+import * as service from './UserService'
 
 const router = express.Router()
 
@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
       res.json(result)
     }
   ).catch(
-    (_err) => { res.send('Error with user!') }
+    (_err) => { res.status(500).send('Email already exists!') }
   )
 })
 
