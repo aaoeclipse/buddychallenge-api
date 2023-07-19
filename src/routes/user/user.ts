@@ -1,15 +1,22 @@
 import express from 'express'
-import { User } from './types'
+import { CreateUser } from './types'
 import * as service from '../../services/user/userService'
 
 const router = express.Router()
+
+router.post('/login', (req, res) => {
+  service.loginUser(req.body.email, req.body.password).then((user) => {
+    console.log(user)
+    res.json(user)
+  }).catch((_err) => res.status(500).send('Error on login in user'))
+})
 
 router.get('/', (_req, res) => {
   service.getSecureEntries().then((allUsers) => res.json(allUsers)).catch((_err) => res.status(400).send('Error fetching users'))
 })
 
 router.post('/', (req, res) => {
-  const user = req.body as User
+  const user = req.body as CreateUser
 
   service.addUser(user).then(
     (result) => {

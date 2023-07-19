@@ -29,6 +29,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const service = __importStar(require("../../services/user/userService"));
 const router = express_1.default.Router();
+router.post('/login', (req, res) => {
+    service.loginUser(req.body.email, req.body.password).then((user) => {
+        console.log(user);
+        res.json(user);
+    }).catch((_err) => res.status(500).send('Error on login in user'));
+});
 router.get('/', (_req, res) => {
     service.getSecureEntries().then((allUsers) => res.json(allUsers)).catch((_err) => res.status(400).send('Error fetching users'));
 });
